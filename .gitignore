@@ -1,0 +1,16 @@
+node_modules
+.env
+coverage
+coverage.json
+typechain
+.DS_Store
+
+#Hardhat files
+cache
+artifacts
+scripts/edited_1__final_minting.json
+scripts/edited_2__final_minting.json
+scripts/edited_3__final_minting.json
+scripts/edited_4__final_minting.json
+scripts/edited_5__final_minting.json
+scripts/final_minting.json
