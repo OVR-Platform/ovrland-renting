@@ -1,6 +1,6 @@
 <img src="Logo.png" style="width: 100%; height: auto;" />
 
-# OVRLand Renting
+# OVRLand Renting Contracts
 
 Run following commands:
 
@@ -14,9 +14,9 @@ npm install
 
 Create `.env` file
 
-```
+```env
 PRIVATE_KEY=""
-ALCHEMY_KEY=""
+ALCHEMY_KEY="" # POLYGON mainnet
 COINMARKETCAP_API_KEY=""
 ```
 
@@ -33,12 +33,12 @@ The first one deals with:
 - Keeping track of the URIs of the experiences which will be of 2 types:
   - **URI of the owner**, visible when a rental is not active (this experience could look like a billboard inviting users to rent).
   - **URI of the renter**, visible only within the rental period.
-- Keep track of rental periods: in fact OVRLandRenting will have to communicate start timestamp and duration in months. In this way to the call of experienceURI(NFTID), the function will respond with the correct type of URI based on the presence or absence of the rent.
+- Keep track of rental periods: in fact OVRLandRenting will have to communicate start timestamp and duration in months. In this way to the call of experienceURI(OVRLandAddress, nftId), the function will respond with the correct type of URI based on the presence or absence of the rent.
 
-OVRLandRenting deals with managing the offers made by renters. Each offer has a maximum duration of 24 hours, within this time frame it is possible to make other offers, which if considered better will rewrite the previous one (with relative reimbursement of the previous offerer).
+OVRLandRenting deals with managing the offers made by renters. Each offer has a maximum duration of 24 hours, within this time frame it is possible to overbid other offers, which if considered better will rewrite the previous one (with relative refund of the previous offerer).
 
-- Offers longer than 1 month can only be confirmed by the owner.
-- Offers with duration equal to 1 month, can be confirmed by the owner at any time, or by the renter if for 24 hours no one has made a better offer.
+- Offers longer than 1 month can only be confirmed by the owner after 24 hours.
+- Offers with duration equal to 1 month, can be confirmed by the owner after 24 hours, or by the renter after 3 days. The offer expires 8 days after creation, and it is possible to place other rent offers.
 
 Once the renting period has been started, it is not possible to make other offers.
 
@@ -47,22 +47,11 @@ The renter will be able to update the experience as many times as he wants (imag
 ## Features
 
 1. Offer creation (renter)
-2. Offer acceptance (owner)
-3. Offer cancel (renter)
+2. Offer acceptance (owner/renter)
+3. Offer cancel (renter/renter)
 4. Renting disabling (owner)
 5. Experience Update (renter)
-
-Offers can be made if:
-
-- No offers have been made before
-- The last offer was made less than 24 hours ago
-- The last offer was made more than 7 days ago (this means that the owner is inactive, and the renter is either inactive or has made an offer for more than 1 month, if the owner is inactive offer must be redone for only 1 month)
-
-Each time the renter makes an offer, the amount is already paid to the contract. If a new bid exceeds the previous one, the previous bidder will be refunded.
-
-In case of acceptance, the amount paid by the bidder will be credited to the owner, while the renter will now have the right to apply his experience on the land.
-
-The owner can always update their experience, however it will not be visible if a rental is in progress.
+6. NoRent, renting conditions (ex. min amount per month, min and max duration).
 
 ---
 
